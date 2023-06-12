@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Input.h"
 #include <iostream>
+#include "PlayerBullet.h"
 
 class Player {
 
@@ -134,6 +135,9 @@ class Player {
 
 		    return result;
 	    }
+
+		void Attack();
+
 	private:
 	    WorldTransform worldTransform_;
 
@@ -143,4 +147,5 @@ class Player {
 
 		Input* input_ = nullptr;
 
+		PlayerBullet* bullet_ = nullptr;
 };
