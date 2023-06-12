@@ -4,10 +4,13 @@
 #include "Input.h"
 #include <iostream>
 #include "PlayerBullet.h"
+#include <list>
 
 class Player {
 
 	public:
+
+		~Player();
 
 		void Initialize(Model* model, uint32_t textureHandle);
 
@@ -147,5 +150,6 @@ class Player {
 
 		Input* input_ = nullptr;
 
-		PlayerBullet* bullet_ = nullptr;
+	    std::list<PlayerBullet*> bullets_;
+
 };
