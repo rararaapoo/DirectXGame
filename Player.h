@@ -5,6 +5,8 @@
 #include <iostream>
 #include "PlayerBullet.h"
 #include <list>
+#include "Matrix4x4.h"
+#include "Material.h"
 
 class Player {
 
@@ -140,6 +142,7 @@ class Player {
 	    }
 
 		void Attack();
+
 
 	private:
 	    WorldTransform worldTransform_;
