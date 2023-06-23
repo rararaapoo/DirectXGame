@@ -1,15 +1,16 @@
 #pragma once
 #include "WorldTransform.h"
 #include "Model.h"
+#include "Matrix4x4.h"
 
 class Enemy 
 {
 public:
-	void Initialize();
+	void Initialize(Model* model, uint32_t textureHandle);
 
 	void Update();
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection_);
 
 private:
 

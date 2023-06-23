@@ -8,6 +8,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { delete model_;
 	delete player_;
 	delete debugCamera_;
+	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -23,6 +24,7 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	player_ = new Player();
+	enemy_ = new Enemy();
 
 	player_->Initialize(model_, textureHandle_);
 
@@ -37,6 +39,7 @@ void GameScene::Update() {
 
 	player_->Update();
 	debugCamera_->Update();
+	enemy_->Update();
 
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -89,6 +92,7 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 
 
 	// 3Dオブジェクト描画後処理
