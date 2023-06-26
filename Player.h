@@ -22,6 +22,7 @@ class Player {
 
 		void Attack();
 
+		
 
 	private:
 	    WorldTransform worldTransform_;
