@@ -10,7 +10,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = {0.0f, 2.0f, 20.0f};
 	
-}
+}	
 
 void Enemy::Update() { 
 	
