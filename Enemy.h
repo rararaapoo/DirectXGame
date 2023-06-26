@@ -3,6 +3,12 @@
 #include "Model.h"
 #include "Matrix4x4.h"
 
+enum class Phase
+{
+	Approach,
+	Leave,
+};
+
 class Enemy 
 {
 public:
@@ -20,7 +26,9 @@ private:
 
 	uint32_t textureHandle_ = 0u;
 
-
+	Phase phase_ = Phase::Approach;
 	
 
 };
+
+

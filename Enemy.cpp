@@ -16,11 +16,31 @@ void Enemy::Update() {
 	
 	const float kEnemySpeed = 0.2f;
 
-	worldTransform_.translation_.z -= kEnemySpeed;
+	//worldTransform_.translation_.z -= kEnemySpeed;
 
 	worldTransform_.matWorld_ = MakeAffineMetrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
+
+	switch (phase_) {	
+	case Phase::Approach:
+	default:
+		//const float kEnemySpeedA = 0.2f;
+		worldTransform_.translation_.z -= kEnemySpeed;
+
+		if (worldTransform_.translation_.z < 0.1f)
+		{
+			phase_ = Phase::Leave;
+		}
+
+		break;
+	case Phase::Leave:
+		worldTransform_.translation_.x -= kEnemySpeed;
+		worldTransform_.translation_.y += kEnemySpeed;
+		break;
+		
+		break;
+	}
 
 }
 
