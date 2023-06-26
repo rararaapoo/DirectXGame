@@ -27,6 +27,7 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 
 	player_->Initialize(model_, textureHandle_);
+	enemy_->Initialize(model_, textureHandle_);
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
