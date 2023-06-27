@@ -23,6 +23,8 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
+	
+
 	player_ = new Player();
 	enemy_ = new Enemy();
 
@@ -33,6 +35,8 @@ void GameScene::Initialize() {
 
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+
+	//enemy_->SetPlayer(player_);
 
 }
 

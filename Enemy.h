@@ -4,6 +4,9 @@
 #include "Matrix4x4.h"
 #include <list>
 #include "EnemyBullet.h"
+//#include "Player.h"'
+
+class Player;
 
 enum class Phase
 {
@@ -23,6 +26,7 @@ public:
 
 	void Fire();
 
+	//void SetPlayer(Player* player) { player_ = player; }
 
 private:
 
@@ -37,6 +41,8 @@ private:
 	std::list<EnemyBullet*> bullets_;
 
 	int timer = 0;
+
+	//Player* player_ = nullptr;
 };
 
 
