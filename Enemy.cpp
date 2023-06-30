@@ -17,7 +17,19 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = {15.0f, 2.0f, 20.0f};
 	
+	
 }	
+
+Vector3 Enemy::GetWorldPosition()
+{ 
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
 
 void Enemy::Update() { 
 	
@@ -80,7 +92,21 @@ void Enemy::Fire()
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, -kBulletSpeed);
 
+	//velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
+	//Enemy::SetPlayer(player_);
+	player_->GetWorldPosition();
+	GetWorldPosition();
+	
+	// c = b - a
+
+	worldTransform_.translation_.x = GetWorldPosition().x - player_->GetWorldPosition().x;
+	worldTransform_.translation_.y = GetWorldPosition().y - player_->GetWorldPosition().y;
+	worldTransform_.translation_.z = GetWorldPosition().z - player_->GetWorldPosition().z;
+	
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
+
 
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);

@@ -4,7 +4,7 @@
 #include "Matrix4x4.h"
 #include <list>
 #include "EnemyBullet.h"
-//#include "Player.h"'
+#include "Player.h"
 
 class Player;
 
@@ -26,7 +26,10 @@ public:
 
 	void Fire();
 
-	//void SetPlayer(Player* player) { player_ = player; }
+	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetWorldPosition();
+
 
 private:
 
@@ -42,7 +45,8 @@ private:
 
 	int timer = 0;
 
-	//Player* player_ = nullptr;
+	
+	Player* player_ = nullptr;
 };
 
 
