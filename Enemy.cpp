@@ -48,7 +48,7 @@ void Enemy::Update() {
 	case Phase::Approach:
 	default:
 		//const float kEnemySpeedA = 0.2f;
-		worldTransform_.translation_.z -= kEnemySpeed;
+		//worldTransform_.translation_.z -= kEnemySpeed;
 		/*
 		if (worldTransform_.translation_.z < 0.1f)
 		{
@@ -89,9 +89,8 @@ void Enemy::Update() {
 
 void Enemy::Fire()
 {
-	const float kBulletSpeed = 1.0f;
-	Vector3 velocity(0, 0, -kBulletSpeed);
-
+	//const float kBulletSpeed = 1.0f;
+	Vector3 velocity;
 	//velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
 	//Enemy::SetPlayer(player_);
@@ -99,17 +98,25 @@ void Enemy::Fire()
 	GetWorldPosition();
 	
 	// c = b - a
-
-	worldTransform_.translation_.x = GetWorldPosition().x - player_->GetWorldPosition().x;
-	worldTransform_.translation_.y = GetWorldPosition().y - player_->GetWorldPosition().y;
-	worldTransform_.translation_.z = GetWorldPosition().z - player_->GetWorldPosition().z;
+	velocity.x = player_->GetWorldPosition().x - GetWorldPosition().x;
+	velocity.y = player_->GetWorldPosition().y - GetWorldPosition().y;
+	velocity.z = player_->GetWorldPosition().z - GetWorldPosition().z;
 	
+	float leg =
+	    sqrtf((velocity.x * velocity.x) + (velocity.y * velocity.y) + (velocity.z * velocity.z));
+
 	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
-
-
+//	Vector3 velocity1;
+	Vector3 diie;
+	diie.x = velocity.x / leg;
+	diie.y = velocity.y / leg;
+	diie.z = velocity.z / leg;
+	//velocity.x = GetWorldPosition().x - player_->GetWorldPosition().x;
+	//velocity.y = GetWorldPosition().y - player_->GetWorldPosition().y;
+	//velocity.z *= GetWorldPosition().z - player_->GetWorldPosition().z;
 
 	EnemyBullet* newBullet = new EnemyBullet();
-	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	newBullet->Initialize(model_, worldTransform_.translation_, /* velocity*/ diie);
 	bullets_.push_back(newBullet);
 }
 
