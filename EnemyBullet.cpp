@@ -22,11 +22,27 @@ void EnemyBullet::Update()
 	worldTransform_.translation_.x += velocity_.x;
 	worldTransform_.translation_.y += velocity_.y;
 	worldTransform_.translation_.z += velocity_.z;
-
-		if (--deathTimer <= 0) {
+	/*
+		if (--deathTimer <= 0) 
+		{
 		isDead_ = true;
-	}
+	}*/
 
+}
+
+Vector3 EnemyBullet::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
+
+void EnemyBullet::OnCollision()
+{ 
+	isDead_ = true;
 }
 
 void EnemyBullet::Draw(const ViewProjection& viewProjection)

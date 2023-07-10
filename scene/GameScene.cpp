@@ -23,8 +23,6 @@ void GameScene::Initialize() {
 
 	viewProjection_.Initialize();
 
-	
-
 	player_ = new Player();
 	enemy_ = new Enemy();
 
@@ -45,6 +43,8 @@ void GameScene::Update() {
 	player_->Update();
 	debugCamera_->Update();
 	enemy_->Update();
+
+	CheckAllCollisions();
 
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -67,6 +67,129 @@ void GameScene::Update() {
 	}
 
 	#endif
+}
+
+void GameScene::CheckAllCollisions()
+{ 
+	Vector3 posA;
+	Vector3 posB;
+
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+	#pragma region 自キャラと敵弾の当たり判定
+	posA = player_->GetWorldPosition();
+
+	for (EnemyBullet* bullet : enemyBullets) {
+		posB = bullet->GetWorldPosition();
+
+		/*
+		Vector3 posR;
+		posR.x = posB.x - posA.x;
+		posR.y = posB.y - posA.y;
+		posR.z = posB.z - posA.z;*/
+		
+		float distance = sqrtf(
+		    (posA.x - posB.x) * (posA.x - posB.x) + (posA.y - posB.y) * (posA.y - posB.y) +
+		    (posA.z - posB.z) * (posA.z - posB.z));
+		/*
+		Vector3 distanceV;
+
+		distanceV.x = (posR.x * posR.x);
+		distanceV.y =(posR.y * posR.y);
+		distanceV.z = (posR.z * posR.z);
+		if (distanceV.x + distanceV.y + distanceV.z <= 2.0f)
+		{
+			player_->OnCollision();
+			bullet->OnCollision();
+		}*/
+
+		if (distance <= 2.0f) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+	
+		
+
+	#pragma endregion
+
+	#pragma region 自弾と敵キャラの当たり判定
+	posA = enemy_->GetWorldPosition();
+
+	for (PlayerBullet* bullet : playerBullets) {
+		posB = bullet->GetWorldPosition();
+
+		/*
+		Vector3 posR;
+		posR.x = posB.x - posA.x;
+		posR.y = posB.y - posA.y;
+		posR.z = posB.z - posA.z;*/
+
+		float distance = sqrtf(
+		    (posA.x - posB.x) * (posA.x - posB.x) + (posA.y - posB.y) * (posA.y - posB.y) +
+		    (posA.z - posB.z) * (posA.z - posB.z));
+		/*
+		Vector3 distanceV;
+
+		distanceV.x = (posR.x * posR.x);
+		distanceV.y =(posR.y * posR.y);
+		distanceV.z = (posR.z * posR.z);
+		if (distanceV.x + distanceV.y + distanceV.z <= 2.0f)
+		{
+		    player_->OnCollision();
+		    bullet->OnCollision();
+		}*/
+
+		if (distance <= 2.0f) {
+			enemy_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+	
+
+	#pragma endregion
+
+	#pragma region 自弾と敵弾の当たり判定
+
+
+
+	for (EnemyBullet* bulletE : enemyBullets) 
+	{
+		posA = bulletE->GetWorldPosition();
+
+		for (PlayerBullet* bulletP : playerBullets) {
+			posB = bulletP->GetWorldPosition();
+
+			/*
+			Vector3 posR;
+			posR.x = posB.x - posA.x;
+			posR.y = posB.y - posA.y;
+			posR.z = posB.z - posA.z;*/
+
+			float distance = sqrtf(
+			    (posA.x - posB.x) * (posA.x - posB.x) + (posA.y - posB.y) * (posA.y - posB.y) +
+			    (posA.z - posB.z) * (posA.z - posB.z));
+			/*
+			Vector3 distanceV;
+
+			distanceV.x = (posR.x * posR.x);
+			distanceV.y =(posR.y * posR.y);
+			distanceV.z = (posR.z * posR.z);
+			if (distanceV.x + distanceV.y + distanceV.z <= 2.0f)
+			{
+			    player_->OnCollision();
+			    bullet->OnCollision();
+			}*/
+
+			if (distance <= 2.0f) {
+				bulletE->OnCollision();
+				bulletP->OnCollision();
+			}
+		}
+	}
+
+	#pragma endregion
 }
 
 void GameScene::Draw() {

@@ -120,6 +120,13 @@ void Enemy::Fire()
 	bullets_.push_back(newBullet);
 }
 
+
+
+void Enemy::OnCollision()
+{
+
+}
+
 void Enemy::Draw(ViewProjection& viewProjection_)
 {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);

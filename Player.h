@@ -24,6 +24,10 @@ class Player {
 
 		Vector3 GetWorldPosition();
 
+		void OnCollision();
+
+		const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
+
 	private:
 	    WorldTransform worldTransform_;
 
@@ -34,5 +38,6 @@ class Player {
 		Input* input_ = nullptr;
 
 	    std::list<PlayerBullet*> bullets_;
+
 
 };
