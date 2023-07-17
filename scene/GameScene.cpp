@@ -5,11 +5,13 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete model_;
+GameScene::~GameScene() { 
+	delete model_;
 	delete player_;
 	delete debugCamera_;
 	delete enemy_;
 	delete modelSkydome_;
+	delete railCamera_;
 }
 
 void GameScene::Initialize() {
@@ -35,6 +37,9 @@ void GameScene::Initialize() {
 
 	viewProjection_.farZ = 2000.0f;
 	viewProjection_.Initialize();
+	
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize(viewProjection_.translation_, viewProjection_.rotation_);
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
@@ -51,8 +56,12 @@ void GameScene::Update() {
 	debugCamera_->Update();
 	enemy_->Update();
 	skydome_->Update();
+	//railCamera_->Update();
 
 	CheckAllCollisions();
+
+	
+
 
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -75,6 +84,14 @@ void GameScene::Update() {
 	}
 
 	#endif
+
+		if (isRailCameraActive_) {
+
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
 }
 
 void GameScene::CheckAllCollisions()
