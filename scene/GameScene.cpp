@@ -33,7 +33,8 @@ void GameScene::Initialize() {
 	enemy_->Initialize(model_, textureHandle_);
 	skydome_->Initialize(modelSkydome_, textureHandle_);
 
-
+	viewProjection_.farZ = 2000.0f;
+	viewProjection_.Initialize();
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
