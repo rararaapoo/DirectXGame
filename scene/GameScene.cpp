@@ -31,7 +31,8 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	skydome_ = new Skydome();	
 
-	player_->Initialize(model_, textureHandle_);
+	Vector3 playerPosition(0, 0, 10);
+	player_->Initialize(model_, textureHandle_, playerPosition);
 	enemy_->Initialize(model_, textureHandle_);
 	skydome_->Initialize(modelSkydome_, textureHandle_);
 
@@ -47,7 +48,7 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	enemy_->SetPlayer(player_);
-
+	player_->SetParent(&railCamera_->GetWorldTransform());
 }
 
 void GameScene::Update() {

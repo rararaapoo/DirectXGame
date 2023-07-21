@@ -14,3 +14,7 @@ struct Matrix4x4 final {
     Matrix4x4 Multiply(Matrix4x4 scalar, Matrix4x4 v);
     Matrix4x4 MakeAffineMetrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
     Matrix4x4 Inverse(const Matrix4x4& m);
+    Matrix4x4& operator*=(const Matrix4x4& obj) {
+
+	return *this;
+    }

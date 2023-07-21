@@ -14,6 +14,8 @@ class RailCamera
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
 	private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
