@@ -21,15 +21,17 @@ void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 playerPosi
 
 	input_ = Input::GetInstance();
 
+	worldTransform_.translation_ = playerPosition;
+	
 }
 
 Vector3 Player::GetWorldPosition()
 { 
 	Vector3 worldPos;
 
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
 }
@@ -75,6 +77,16 @@ void Player::Update() {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
 
+		Attack();
+
+			const float kMoveLimitX = 30;
+	    const float kMoveLimitY = 15;
+
+	    worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
+	    worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
+	    worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
+	    worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
+
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
@@ -84,6 +96,8 @@ void Player::Update() {
 
 	worldTransform_.TransferMatrix();
 
+	worldTransform_.UpdateMatrix();
+
 	ImGui::Begin("player");
 	float sliderValue[3] = {
 	    worldTransform_.translation_.x, worldTransform_.translation_.y,
@@ -92,15 +106,8 @@ void Player::Update() {
 	worldTransform_.translation_ = {sliderValue[0], sliderValue[1], sliderValue[2]};
 	ImGui::End();
 
-	const float kMoveLimitX = 30;
-	const float kMoveLimitY = 15;
 
-	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
-	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
-	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
-	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
-	Attack();
 
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Update();
@@ -139,7 +146,8 @@ void Player::Attack()
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_,  worldTransform_.translation_, velocity);
+		newBullet->Initialize(
+		    model_, /*worldTransform_.translation_*/ GetWorldPosition(), velocity);
 		bullets_.push_back(newBullet);
 	}	
 }

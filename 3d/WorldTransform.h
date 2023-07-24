@@ -4,10 +4,7 @@
 #include "Vector3.h"
 #include <d3d12.h>
 #include <wrl.h>
-#include <iostream>
-#include "Matrix4x4.h"
-
-template<class T>;
+//#include <iostream>
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
@@ -33,12 +30,7 @@ struct WorldTransform {
 	// 親となるワールド変換へのポインタ
 	const WorldTransform* parent_ = nullptr;
 
-	T& operator*() const;
 
-	Matrix4x4& operator*=(const WorldTransform& obj) { 
-		
-		matWorld_ *= obj;
-		return *this; }
 
 	/// <summary>
 	/// 初期化

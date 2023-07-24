@@ -229,3 +229,44 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 
 	return result;
 }
+
+Matrix4x4& operator*=(Matrix4x4& m1, const Matrix4x4& m2) {
+	Matrix4x4 result = {};
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		for (size_t j = 0; j < 4; j++)
+		{
+			for (size_t k = 0; k < 4; k++)
+			{
+				result.m[i][j] += m1.m[i][k] * m2.m[k][j];
+			}
+		}
+	}
+
+	m1 = result;
+
+	return m1;
+}
+
+Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2) { 
+	
+	Matrix4x4 result = m1;
+	return result *= m2;
+
+}
+
+//Vector3& operator*=(Vector3& v, float s) {
+//
+//	v.x *= s;
+//	v.y *= s;
+//	v.z *= s;
+//	return v;
+//}
+//
+//const Vector3 operator*(const Vector3& v, float s) 
+//{ 
+//	Vector3 temp(v);
+//	
+//	
+//	return temp *= s; }

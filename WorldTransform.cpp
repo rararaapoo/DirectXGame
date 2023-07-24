@@ -1,5 +1,6 @@
 #include "WorldTransform.h"
-#include "Player.h"
+//#include "Player.h"
+
 
 void WorldTransform::UpdateMatrix() {
 	matWorld_ = MakeAffineMetrix(scale_, rotation_, translation_);

@@ -31,8 +31,8 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	skydome_ = new Skydome();	
 
-	Vector3 playerPosition(0, 0, 10);
-	player_->Initialize(model_, textureHandle_, playerPosition);
+	//Vector3 playerPosition(0, 0, 10);
+	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.f});
 	enemy_->Initialize(model_, textureHandle_);
 	skydome_->Initialize(modelSkydome_, textureHandle_);
 
