@@ -5,8 +5,10 @@
 #include <list>
 #include "EnemyBullet.h"
 #include "Player.h"
+#include "GameScene.h"
 
 class Player;
+class GameScene;
 
 enum class Phase
 {
@@ -18,7 +20,7 @@ class Enemy
 {
 public:
 	~Enemy();
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, Vector3& velocity, Vector3& position);
 
 	void Update();
 
@@ -32,9 +34,9 @@ public:
 
 	void OnCollision();
 
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+	//const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
-
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 
@@ -46,12 +48,15 @@ private:
 
 	Phase phase_ = Phase::Approach;
 	
-	std::list<EnemyBullet*> bullets_;
+	//std::list<EnemyBullet*> bullets_;
 
 	int timer = 0;
 
+	GameScene* gameScene_ = nullptr;
 	
 	Player* player_ = nullptr;
+
+	Vector3 velocity_;
 };
 
 

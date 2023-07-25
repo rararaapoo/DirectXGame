@@ -17,6 +17,7 @@ public:
 
 	Vector3 GetWorldPosition();
 
+
 private:
 	WorldTransform worldTransform_;
 
@@ -31,4 +32,6 @@ private:
 	int32_t deathTimer = kLifeTime;
 
 	bool isDead_ = false;
+
+	
 };
