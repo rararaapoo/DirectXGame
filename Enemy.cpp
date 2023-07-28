@@ -137,4 +137,4 @@ void Enemy::Draw(ViewProjection& viewProjection_)
 	//for (EnemyBullet* bullet : bullets_) {
 	//	bullet->Draw(viewProjection_); 1111
 	//}
-}
+}	
