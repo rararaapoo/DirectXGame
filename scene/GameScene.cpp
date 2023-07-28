@@ -218,6 +218,8 @@ void GameScene::CheckAllCollisions()
 	#pragma endregion
 }
 
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet_) { enemyBullet_ }
+
 void GameScene::Draw() {
 
 	// コマンドリストの取得

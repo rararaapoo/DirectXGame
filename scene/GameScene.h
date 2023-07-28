@@ -25,7 +25,7 @@ public: // メンバ関数
 	/// </summary>
 	GameScene();
 
-	/// <summary>
+	/// <summary>	
 	/// デストラクタ
 	/// </summary>
 	~GameScene();
@@ -46,6 +46,8 @@ public: // メンバ関数
 	void Draw();
 
 	void CheckAllCollisions();
+
+	void AddEnemyBullet(EnemyBullet* enemyBullet_);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
