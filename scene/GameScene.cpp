@@ -120,7 +120,7 @@ void GameScene::CheckAllCollisions()
 
 		/*
 		Vector3 posR;
-		posR.x = posB.x - posA.x;
+		posR.x = posB.x - posA.x; 
 		posR.y = posB.y - posA.y;
 		posR.z = posB.z - posA.z;*/
 		
