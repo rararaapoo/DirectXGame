@@ -218,7 +218,7 @@ void GameScene::CheckAllCollisions()
 	#pragma endregion
 }
 
-void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet_) { enemyBullet_ }
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { enemyBullet_.(enemyBullet); }
 
 void GameScene::Draw() {
 
