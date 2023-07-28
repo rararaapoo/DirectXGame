@@ -12,7 +12,7 @@
 #include "DebugCamera.h"
 #include "Skydome.h"
 #include "RailCamera.h"
-#include <list>
+#include "list"
 #include "Enemy.h"
 
 /// <summary>
