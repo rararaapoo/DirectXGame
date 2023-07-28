@@ -12,6 +12,10 @@ GameScene::~GameScene() {
 	delete enemy_;
 	delete modelSkydome_;
 	delete railCamera_;
+
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
 }
 
 void GameScene::Initialize() {
@@ -49,6 +53,7 @@ void GameScene::Initialize() {
 
 	enemy_->SetPlayer(player_);
 	player_->SetParent(&railCamera_->GetWorldTransform());
+	enemy_->SetGameScene(this);
 }
 
 void GameScene::Update() {
@@ -61,7 +66,9 @@ void GameScene::Update() {
 
 	CheckAllCollisions();
 
-	
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
+	}
 
 
 	#ifdef _DEBUG
@@ -93,6 +100,8 @@ void GameScene::Update() {
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	}
+
+
 }
 
 void GameScene::CheckAllCollisions()
@@ -218,7 +227,7 @@ void GameScene::CheckAllCollisions()
 	#pragma endregion
 }
 
-void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { enemyBullet_.push_back(enemyBullet) }
+//void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { enemyBullets_.push_back(enemyBullet); }
 
 void GameScene::Draw() {
 
@@ -250,6 +259,10 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
+
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
