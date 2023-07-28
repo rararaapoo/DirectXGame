@@ -1,8 +1,9 @@
 #include "Enemy.h"
 #include <assert.h>
 
-Enemy::~Enemy()
-{
+Enemy::Enemy() {}
+
+Enemy::~Enemy() {
 	/*for (EnemyBullet* bullet : bullets_) { 111
 		delete bullet;
 	}*/
@@ -127,9 +128,7 @@ void Enemy::Fire()
 
 
 void Enemy::OnCollision()
-{
-
-}
+{ isDead_ = true; }
 
 void Enemy::Draw(ViewProjection& viewProjection_)
 {

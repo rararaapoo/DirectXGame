@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 #include "WorldTransform.h"
 #include "Model.h"
 #include "Matrix4x4.h"
@@ -19,6 +19,7 @@ enum class Phase
 class Enemy 
 {
 public:
+	Enemy();
 	~Enemy();
 	void Initialize(Model* model, uint32_t textureHandle, Vector3& velocity, Vector3& position);
 
@@ -57,6 +58,8 @@ private:
 	Player* player_ = nullptr;
 
 	Vector3 velocity_;
+
+	bool isDead_ = false;
 };
 
 

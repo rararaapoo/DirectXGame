@@ -10,11 +10,10 @@
 #include "WorldTransform.h"
 #include "Player.h"
 #include "DebugCamera.h"
-#include "Enemy.h"
 #include "Skydome.h"
 #include "RailCamera.h"
 #include <list>
-
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -57,7 +56,7 @@ public: // メンバ関数
 
 private: // メンバ変数
 
-	std::list<Enemy*> enemy_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -80,7 +79,7 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	RailCamera* railCamera_ = nullptr;
 	std::list<EnemyBullet*> enemyBullets_;
-
+	std::list<Enemy*> enemy_;
 
 	/// <summary>
 	/// ゲームシーン用
