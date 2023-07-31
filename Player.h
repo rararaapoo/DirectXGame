@@ -41,5 +41,6 @@ class Player {
 
 	    std::list<PlayerBullet*> bullets_;
 
+		WorldTransform worldTransform3DReticle_;
 
 };

@@ -23,6 +23,8 @@ void Player::Initialize(Model* model, uint32_t textureHandle, Vector3 playerPosi
 
 	worldTransform_.translation_ = playerPosition;
 	
+	worldTransform3DReticle_.Initialize();
+
 }
 
 Vector3 Player::GetWorldPosition()
@@ -52,6 +54,16 @@ void Player::Update() {
 	const float kCharacterSpeed = 0.2f;
 
 	const float kRotSpeed = 0.02f;
+
+	const float kDistancePlayerTo3DReticle = 50.0f;
+
+	Vector3 offset = {0, 0, 1.0f};
+
+	offset = (offset, worldTransform_.matWorld_);
+
+	offset = TransformNormal(offset) * kDistancePlayerTo3DReticle;
+
+	worldTransform3DReticle_.translation_ = 
 
 	if (input_->PushKey(DIK_LEFT)) {
 		move.x -= kCharacterSpeed;
