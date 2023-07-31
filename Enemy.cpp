@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <assert.h>
+#include "GameScene.h"
 
 Enemy::~Enemy()
 {
@@ -117,6 +118,7 @@ void Enemy::Fire()
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, /* velocity*/ diie);
 	//bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 

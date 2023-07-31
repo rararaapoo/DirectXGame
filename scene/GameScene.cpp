@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "AxisIndicator.h"
+#include "fstream"
 
 GameScene::GameScene() {}
 
@@ -58,6 +59,8 @@ void GameScene::Initialize() {
 	/*enemy_->SetPlayer(player_);*/
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	AddEnemy({0.5f, 5.0f, 30.0f});
+	LoadEnemyPopDate();
+
 }
 
 void GameScene::Update() {
@@ -66,9 +69,18 @@ void GameScene::Update() {
 	debugCamera_->Update();
 	skydome_->Update();
 
+	UpdateEnemyPopCommands();
+
 	for (Enemy* enemy : enemy_) {
 		enemy->Update();
 	}
+
+	
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
+	}
+
+
 	//railCamera_->Update();
 
 		bullets_.remove_if([](EnemyBullet* bullet) {
@@ -79,11 +91,16 @@ void GameScene::Update() {
 		return false;
 	});
 
+	enemy_.remove_if([](Enemy* enemy) {
+		    if (enemy->GetIsDead()) 
+			{
+			    delete enemy;
+			    return true;
+		    }
+		    return false;
+	    });
 	CheckAllCollisions();
 
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
 
 
 	#ifdef _DEBUG
@@ -260,6 +277,67 @@ void GameScene::AddEnemy(Vector3 pos)
 	obj->SetGameScene(this);
 	obj->SetPlayer(player_);
 	enemy_.push_back(obj);
+}
+
+void GameScene::LoadEnemyPopDate() 
+{ std::ifstream file;
+	file.open("Resources/enemyPop.csv");
+	assert(file.is_open());
+
+	enemyPopCommands << file.rdbuf();
+
+	file.close();
+}
+
+void GameScene::UpdateEnemyPopCommands() 
+{
+	if (isflag)
+	{
+		isTimer--;
+		if (isTimer <= 0)
+		{
+			isflag = false;
+		}
+		return;
+	}
+
+	std::string line;
+	
+	while (getline(enemyPopCommands, line)) {
+		std::istringstream line_stream(line);
+
+		std::string word;
+
+		getline(line_stream, word, ',');
+
+		if (word.find("//") == 0) {
+			continue;
+		}
+
+		if (word.find("POP") == 0) {
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			AddEnemy(Vector3(x, y, z));
+		}
+
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			int32_t waitTime = atoi(word.c_str());
+
+			isflag = true;
+			isTimer = waitTime;
+
+			break;
+		}
+	}
 }
 
 void GameScene::Draw() {

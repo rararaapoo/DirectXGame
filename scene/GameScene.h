@@ -13,6 +13,7 @@
 #include "Enemy.h"
 #include "Skydome.h"
 #include "RailCamera.h"
+#include "sstream"
 
 /// <summary>
 /// ゲームシーン
@@ -53,6 +54,10 @@ public: // メンバ関数
 
 	void AddEnemy(Vector3 pos);
 
+	void LoadEnemyPopDate();
+
+	void UpdateEnemyPopCommands();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -71,12 +76,15 @@ private: // メンバ変数
 
 	bool isDebugCameraActive_ = false;
 	bool isRailCameraActive_ = true;
+	bool isflag = false;
+	int isTimer;
 
 	DebugCamera* debugCamera_ = nullptr;
 	RailCamera* railCamera_ = nullptr;
 
 	std::list<EnemyBullet*> bullets_;
 	std::list<Enemy*> enemy_;
+	std::stringstream enemyPopCommands;
 
 	/// <summary>
 	/// ゲームシーン用

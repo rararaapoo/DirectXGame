@@ -6,6 +6,7 @@
 #include "EnemyBullet.h"
 #include "Player.h"
 
+
 class Player;
 class GameScene;
 
@@ -32,6 +33,8 @@ public:
 	Vector3 GetWorldPosition();
 
 	void OnCollision();
+
+	bool GetIsDead() { return isDead_; }
 
 	//const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
