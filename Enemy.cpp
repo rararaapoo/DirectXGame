@@ -3,20 +3,19 @@
 
 Enemy::~Enemy()
 {
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		delete bullet;
-	}
+	}*/
 }
 
-void Enemy::Initialize(Model* model, uint32_t textureHandle) 
-{ 
+void Enemy::Initialize(Model* model, uint32_t textureHandle, Vector3& velocity, Vector3& position) { 
 	assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
 	textureHandle_ = TextureManager::Load("peng.png");
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = {15.0f, 2.0f, 20.0f};
-	
+	worldTransform_.translation_ = position;
+	velocity_ = velocity;
 	
 }	
 
@@ -74,17 +73,17 @@ void Enemy::Update() {
 	
 
 
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		bullet->Update();
-	}
+	}*/
 
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	/*bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
 		}
 		return false;
-	});
+	});*/
 }
 
 void Enemy::Fire()
@@ -117,21 +116,19 @@ void Enemy::Fire()
 
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, /* velocity*/ diie);
-	bullets_.push_back(newBullet);
+	//bullets_.push_back(newBullet);
 }
 
 
 
 void Enemy::OnCollision()
-{
-
-}
+{ isDead_ = true; }
 
 void Enemy::Draw(ViewProjection& viewProjection_)
 {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection_);
-	}
+	}*/
 }

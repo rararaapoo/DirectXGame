@@ -9,9 +9,15 @@ GameScene::~GameScene() {
 	delete model_;
 	delete player_;
 	delete debugCamera_;
-	delete enemy_;
+	for (Enemy* enemy : enemy_) {
+		delete enemy;
+	}
 	delete modelSkydome_;
 	delete railCamera_;
+
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
 }
 
 void GameScene::Initialize() {
@@ -28,13 +34,15 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	player_ = new Player();
-	enemy_ = new Enemy();
+	//enemy_ = new Enemy();
 	skydome_ = new Skydome();	
 
 	//Vector3 playerPosition(0, 0, 10);
 	player_->Initialize(model_, textureHandle_, {0.0f, -5.0f, 15.f});
-	enemy_->Initialize(model_, textureHandle_);
+	/*enemy_->Initialize(model_, textureHandle_);*/
 	skydome_->Initialize(modelSkydome_, textureHandle_);
+
+	/*enemy_->SetGameScene(this);*/
 
 	viewProjection_.farZ = 2000.0f;
 	viewProjection_.Initialize();
@@ -47,21 +55,35 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
-	enemy_->SetPlayer(player_);
+	/*enemy_->SetPlayer(player_);*/
 	player_->SetParent(&railCamera_->GetWorldTransform());
+	AddEnemy({0.5f, 5.0f, 30.0f});
 }
 
 void GameScene::Update() {
 
 	player_->Update();
 	debugCamera_->Update();
-	enemy_->Update();
 	skydome_->Update();
+
+	for (Enemy* enemy : enemy_) {
+		enemy->Update();
+	}
 	//railCamera_->Update();
+
+		bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
 
 	CheckAllCollisions();
 
-	
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
+	}
 
 
 	#ifdef _DEBUG
@@ -101,7 +123,8 @@ void GameScene::CheckAllCollisions()
 	Vector3 posB;
 
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets = bullets_ /*enemy_->GetBullets()*/
+	;
 
 	#pragma region 自キャラと敵弾の当たり判定
 	posA = player_->GetWorldPosition();
@@ -141,35 +164,40 @@ void GameScene::CheckAllCollisions()
 	#pragma endregion
 
 	#pragma region 自弾と敵キャラの当たり判定
-	posA = enemy_->GetWorldPosition();
+	for (Enemy* enemy : enemy_)
+	{
 
-	for (PlayerBullet* bullet : playerBullets) {
-		posB = bullet->GetWorldPosition();
+		posA = enemy->GetWorldPosition();
 
-		/*
-		Vector3 posR;
-		posR.x = posB.x - posA.x;
-		posR.y = posB.y - posA.y;
-		posR.z = posB.z - posA.z;*/
+		for (PlayerBullet* bullet : playerBullets) {
+			posB = bullet->GetWorldPosition();
 
-		float distance = sqrtf(
-		    (posA.x - posB.x) * (posA.x - posB.x) + (posA.y - posB.y) * (posA.y - posB.y) +
-		    (posA.z - posB.z) * (posA.z - posB.z));
-		/*
-		Vector3 distanceV;
+			/*
+			Vector3 posR;
+			posR.x = posB.x - posA.x;
+			posR.y = posB.y - posA.y;
+			posR.z = posB.z - posA.z;*/
 
-		distanceV.x = (posR.x * posR.x);
-		distanceV.y =(posR.y * posR.y);
-		distanceV.z = (posR.z * posR.z);
-		if (distanceV.x + distanceV.y + distanceV.z <= 2.0f)
-		{
-		    player_->OnCollision();
-		    bullet->OnCollision();
-		}*/
+			float distance = sqrtf(
+			    (posA.x - posB.x) * (posA.x - posB.x) + (posA.y - posB.y) * (posA.y - posB.y) +
+			    (posA.z - posB.z) * (posA.z - posB.z));
+			/*
+			Vector3 distanceV;
 
-		if (distance <= 2.0f) {
-			enemy_->OnCollision();
-			bullet->OnCollision();
+			distanceV.x = (posR.x * posR.x);
+			distanceV.y =(posR.y * posR.y);
+			distanceV.z = (posR.z * posR.z);
+			if (distanceV.x + distanceV.y + distanceV.z <= 2.0f)
+			{
+			    player_->OnCollision();
+			    bullet->OnCollision();
+			}*/
+
+			if (distance <= 2.0f) {
+				enemy->OnCollision();
+				bullet->OnCollision();
+
+			}
 		}
 	}
 	
@@ -218,6 +246,22 @@ void GameScene::CheckAllCollisions()
 	#pragma endregion
 }
 
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) { bullets_.push_back(enemyBullet); }
+
+void GameScene::AddEnemy(Vector3 pos)
+{
+	Enemy* obj = new Enemy();
+
+	const float kSpeed = 0.0f;
+
+	Vector3 velocity{kSpeed, kSpeed, kSpeed};
+
+	obj->Initialize(model_, textureHandle_, velocity, pos);
+	obj->SetGameScene(this);
+	obj->SetPlayer(player_);
+	enemy_.push_back(obj);
+}
+
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -246,8 +290,16 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	player_->Draw(viewProjection_);
-	enemy_->Draw(viewProjection_);
+	for (Enemy* enemy : enemy_)
+	{
+		enemy->Draw(viewProjection_);
+	}
+	
 	skydome_->Draw(viewProjection_);
+
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

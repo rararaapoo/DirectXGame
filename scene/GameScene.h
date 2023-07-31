@@ -47,6 +47,12 @@ public: // メンバ関数
 
 	void CheckAllCollisions();
 
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
+	void AddEnemy(Vector3 pos);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -60,7 +66,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 
 	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
+	//Enemy* enemy_ = nullptr;
 	Skydome* skydome_ = nullptr;
 
 	bool isDebugCameraActive_ = false;
@@ -68,6 +74,9 @@ private: // メンバ変数
 
 	DebugCamera* debugCamera_ = nullptr;
 	RailCamera* railCamera_ = nullptr;
+
+	std::list<EnemyBullet*> bullets_;
+	std::list<Enemy*> enemy_;
 
 	/// <summary>
 	/// ゲームシーン用
