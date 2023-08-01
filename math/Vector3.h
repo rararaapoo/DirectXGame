@@ -9,6 +9,6 @@ struct Vector3 final {
 	float z;
 
 };
-
-    Vector3& operator*=(Vector3& v, float s);
-const Vector3 operator*(const Vector3& v, float s);
+//
+//    Vector3& operator*=(Vector3& v, float s);
+//const Vector3 operator*(const Vector3& v, float s);

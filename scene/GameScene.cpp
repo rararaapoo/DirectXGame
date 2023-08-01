@@ -22,12 +22,14 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
-
+	//TextureManager::Load("target.png");
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
 	textureHandle_ = TextureManager::Load("sample.png");
+	//textureHandle_T = TextureManager::Load("target.png");
+	
 
 	model_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -65,7 +67,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	player_->Update();
+	player_->Update(viewProjection_);
 	debugCamera_->Update();
 	skydome_->Update();
 
@@ -362,7 +364,7 @@ void GameScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-
+	
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
@@ -372,13 +374,12 @@ void GameScene::Draw() {
 	{
 		enemy->Draw(viewProjection_);
 	}
-	
+	//player_->DrawUI();
 	skydome_->Draw(viewProjection_);
 
 	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection_);
 	}
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -387,6 +388,7 @@ void GameScene::Draw() {
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 
+				player_->DrawUI();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>

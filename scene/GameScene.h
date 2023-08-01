@@ -64,6 +64,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 
 	uint32_t textureHandle_ = 0;
+	uint32_t textureHandle_T = 0;
 
 	Model* model_ = nullptr;
 	Model* modelSkydome_ = nullptr;
