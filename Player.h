@@ -34,6 +34,8 @@ class Player {
 		void SetParent(const WorldTransform* parent);
 
 		void DrawUI();
+
+		void mouse(ViewProjection& viewProjection_);
 			
 	private:
 	    WorldTransform worldTransform_;

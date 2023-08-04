@@ -20,11 +20,12 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 void PlayerBullet::Update() 
 { 
 	//worldTransform_.TransferMatrix();
-	worldTransform_.UpdateMatrix();
+
 
 	worldTransform_.translation_.x += velocity_.x;
 	worldTransform_.translation_.y += velocity_.y;
 	worldTransform_.translation_.z += velocity_.z;
+	worldTransform_.UpdateMatrix();
 
 	if (--deathTimer <= 0)
 	{
@@ -39,9 +40,9 @@ Vector3 PlayerBullet::GetWorldPosition() {
 	worldPos.y = worldTransform_.translation_.y;
 	worldPos.z = worldTransform_.translation_.z;
 
-	//worldPos.x = worldTransform_.matWorld_.m[3][0];
-	//worldPos.y = worldTransform_.matWorld_.m[3][1];
-	//worldPos.z = worldTransform_.matWorld_.m[3][2];
+	/*worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];*/
 
 	return worldPos;
 }

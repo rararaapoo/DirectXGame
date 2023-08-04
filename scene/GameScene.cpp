@@ -71,6 +71,7 @@ void GameScene::Update() {
 	debugCamera_->Update();
 	skydome_->Update();
 
+
 	UpdateEnemyPopCommands();
 
 	for (Enemy* enemy : enemy_) {
@@ -79,10 +80,11 @@ void GameScene::Update() {
 
 	
 	for (EnemyBullet* bullet : bullets_) {
+		/*player_->mouse(viewProjection_);*/
 		bullet->Update();
-	}
+	}	
 
-
+		
 	//railCamera_->Update();
 
 		bullets_.remove_if([](EnemyBullet* bullet) {
@@ -388,7 +390,7 @@ void GameScene::Draw() {
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 
-				player_->DrawUI();
+	player_->DrawUI();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>

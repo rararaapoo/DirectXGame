@@ -287,6 +287,21 @@ Vector3 Normalize(const Vector3& v) {
 	return result;
 }
 
+//Vector3& operator-=(Vector3& m1, const Vector3& m2) 
+//{
+//	Vector3 result = m1;
+//	result.x - m2.x;
+//	result.y - m2.y;
+//	result.z - m2.z;
+//	return result;
+//}
+//
+//Vector3 operator-(const Vector3& m1, const Vector3& m2)
+//{
+//	Vector3 result = m1;
+//	return result -= m2;
+//}
+
 Matrix4x4& operator*=(Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 result = {};
 
@@ -321,6 +336,14 @@ Vector3& operator*=(Vector3& v, float s) {
 	v.z *= s;
 	return v;
 }
+//
+//Vector3& operator-=(Vector3& v, float s) 
+//{
+//	v.x *= s;
+//	v.y *= s;
+//	v.z *= s;
+//	return v;
+//}
 
 const Vector3 operator*(const Vector3& v, float s) 
 { 
