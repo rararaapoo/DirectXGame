@@ -110,28 +110,28 @@ void Player::Update(ViewProjection& viewProjection_) {
 	//
 	//sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 	mouse(viewProjection_);
-
-	if (input_->PushKey(DIK_LEFT)) {
+	
+	if (input_->PushKey(DIK_A)) {
 		move.x -= kCharacterSpeed;
 	}
 
-	else if (input_->PushKey(DIK_RIGHT)) {
+	else if (input_->PushKey(DIK_D)) {
 		move.x += kCharacterSpeed;
 	}
 
-	if (input_->PushKey(DIK_UP)) {
+	if (input_->PushKey(DIK_W)) {
 		move.y += kCharacterSpeed;
 	}
 
-	else if (input_->PushKey(DIK_DOWN)) {
+	else if (input_->PushKey(DIK_S)) {
 		move.y -= kCharacterSpeed;
 	}
 
-	if (input_->PushKey(DIK_A)) {
+	if (input_->PushKey(DIK_Q)) {
 		worldTransform_.rotation_.y -= kRotSpeed;
 	}
 
-	else if (input_->PushKey(DIK_D)) {
+	else if (input_->PushKey(DIK_E)) {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
 
@@ -158,13 +158,13 @@ void Player::Update(ViewProjection& viewProjection_) {
 	
 
 
-	ImGui::Begin("player");
+	/*ImGui::Begin("player");
 	float sliderValue[3] = {
 	    worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z};
 	ImGui::SliderFloat3("position", sliderValue, 20.0f, 20.0f);
 	worldTransform_.translation_ = {sliderValue[0], sliderValue[1], sliderValue[2]};
-	ImGui::End();
+	ImGui::End();*/
 
 
 
@@ -280,12 +280,12 @@ void Player::mouse(ViewProjection& viewProjection_) {
 	worldTransform3DReticle_.translation_.z = posNear.z + mouseDirection.z * kDistanceTestObject;
 	worldTransform3DReticle_.UpdateMatrix();
 
-	ImGui::Begin("Player");
-	//ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
-	ImGui::Text("Near:(%+.2f, %+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
-	ImGui::Text("Far:(%+.2f, %+.2f,%+.2f)", posFar.x, posFar.y, posFar.z);
-	ImGui::Text(
-	    "3DReticle:(%+.2f, %+.2f,%+.2f)", worldTransform3DReticle_.translation_.x,
-	    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
-	ImGui::End();
+	//ImGui::Begin("Player");
+	////ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
+	//ImGui::Text("Near:(%+.2f, %+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
+	//ImGui::Text("Far:(%+.2f, %+.2f,%+.2f)", posFar.x, posFar.y, posFar.z);
+	//ImGui::Text(
+	//    "3DReticle:(%+.2f, %+.2f,%+.2f)", worldTransform3DReticle_.translation_.x,
+	//    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
+	//ImGui::End();
 }

@@ -7,7 +7,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 
 	model_ = model;
 
-	textureHandle_ = TextureManager::Load("cube.jpg");
+	textureHandle_ = TextureManager::Load("enemeyCube.png");
 
 	worldTransform_.Initialize();
 
